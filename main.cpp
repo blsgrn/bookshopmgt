@@ -104,22 +104,34 @@ void createUsernamePassword()
 //create txt file containing book details
 void createBooksAvailable()
 {
-	//create a list of books details (maximum 100) with details of 5 books already entered
+	//create a list of books details (maximum 100) with details of 5 books already entered	
 	string author[100] = {"N.M.Stevenson", "R. Gregor", "L. Timothy", "G. Laura", "P. Randall"};
-	string title[100] = {"Learn C++", "Learn Java", "Learn Python", "Learn HTML and CSS", "Learn Javascript"};
-	string publisher[100] = {"Penguin", "McMillan", "Hachette", "Schuster", "Collins"};
-	float price[100] = {2000, 3500, 990, 5600, 4200};
-	int stock[100] = {3, 5, 12, 6, 20};
+	string title[100] = {"Learn C++", "Learn Java", "Learn Python", "Learn HTML", "Learn CSS"};
+	string publisher[100] = {"Penguin ", "McMillan", "Hachette", "Schuster", "Collins "};
+	float price[100] = {2000,3500,990,5600,4200};
+	int stock[100] = {3,5,12,6,20};
 
 
 	ofstream TempFile_02("bookdetails.txt");
-
+	
 	//iterating through arrays to write on txt file
 	for (int i=0; i < 100; i++)
 	{
-		TempFile_02 << author[i] << "\t" << title[i] << "\t" << publisher[i] << "\t" << price [i] << "\t" << stock[i] << "\n";
+		if (stock[i] > 0){
+		TempFile_02 << author[i] << "\t\t" << title[i] << "\t\t" << publisher[i] << "\t\t" << price[i] << "\t\t" << stock[i] << "\n";
+		}
+	
 	}
 	TempFile_02.close();
+}
+
+void viewAvailableBooks(){
+		string bookstxt;
+		ifstream BookDetails("bookdetails.txt");
+		while(getline(BookDetails, bookstxt)){
+			cout<< bookstxt << "\n";
+		}
+		BookDetails.close();
 }
 
 //create txt file with company details
@@ -137,7 +149,7 @@ void createCompanyDetails(){
 
 //view companydetails
 void viewCompanyDetails(){
-			string mytext;
+		string mytext;
 		ifstream CompanyDetail("companydetails.txt");
 		while (getline(CompanyDetail, mytext)){
 			cout << mytext << "\n";
@@ -163,6 +175,8 @@ void login(string& user, string& pw)
 								error = 0;
 								cout << "\n\tEnter your selection (number): ";
 								cin >> choice_number;
+								cout << "\n\tAVAILABLE BOOKS: ";
+								cout << "\n\t****************" << endl;
 								
 								if (cin.fail())
 								{
@@ -174,8 +188,9 @@ void login(string& user, string& pw)
 							} while (error == 1);
 
 							switch (choice_number){
-								case 1:									
-									// viewAvailableBooks();							
+								case 1:
+									createBooksAvailable();									
+									viewAvailableBooks();							
 									break;
 
 								case 2:
@@ -214,3 +229,4 @@ void login(string& user, string& pw)
 	cout << "\n\tUsername and password does not match!! Try again." << endl;
 	}
 }
+
