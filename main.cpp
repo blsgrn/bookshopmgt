@@ -28,7 +28,7 @@ void viewCompanyDetails();
 
 //second set of functions as choices after user login (Sub Menu after login)
 void viewAvailableBooks();
-void addBook();
+void addNewBooks(int list_number, string author, string title, string publisher, float price, int stock);
 void updateBook();
 void deleteBook(int list_number);
 void viewSalesDetails();
