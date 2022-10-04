@@ -31,8 +31,25 @@ void viewAvailableBooks();
 void addNewBooks(int list_number, string author, string title, string publisher, float price, int stock);
 void updateBook(int list_no);
 void deleteBook(int list_number);
-void viewSalesDetails();
 void createNewUsernamePassword(int position, string newuser, string newpassword);
+
+
+//manage sales
+void manageSales();
+void addSales(int booklistno, int count);
+void createSalestxt();
+void viewSales();
+
+int soldBookListNumber[100];
+string soldBookAuthor[100];
+string soldBookTitle[100];
+int soldBookCount[100];
+float soldBookPrice[100];
+int sales[100];
+int totalSales {0};
+int totalSalesAccumulation[100];
+
+
 
 
 
@@ -42,8 +59,8 @@ int main(int argc, char *argv[]){
 
 	
 
-	cout << "\n\t\tWelcome to GENIUS BOOK!!\nUsing this software you can maintain books in the shop\n";
-	cout << "***** **** ******** *** *** ******** ***** ** *** ****" << endl;
+	cout << "\n\t\tWelcome to GENIUS BOOK!!\nUsing this software you can manage books in your bookshop\n";
+	cout << "***** **** ******** *** *** ******** ***** ** *** *******" << endl;
 
 	
 	do {
@@ -144,7 +161,7 @@ void updateBook(int list_no){
 	do {
 		cout << "\n\n\tPlease select an option from given menu below to edit:  \n";
 		cout << "\t1. Author\n\t2. Title\n\t3. Publisher\n\t4. Price\n\t5. Stock\n\t6. Exit\n";
-		cout << "Enter number: ";
+		cout << "\n\tEnter number: ";
 		cin >> entered_number;
 
 		switch (entered_number)
@@ -177,6 +194,7 @@ void updateBook(int list_no){
 			cout << "Edit book available stock: ";
 			cin >> stck;
 			stock_arr[list_no] = stck;
+			break;
 
 		case 6:
 			break;
@@ -223,7 +241,7 @@ void createCompanyDetails(){
 		TempFile_03<<"\t\t***************\n";
 		TempFile_03<<"\t\tName: GENIUS BOOKS (pvt) Ltd.\n";
 		TempFile_03<< "\t\tAddress: 345, Galle Road, Colombo-04\n";
-		TempFile_03<< "\t\tOwnership: Subramaniam B\n";
+		TempFile_03<< "\t\tOwnership: Subramaniam B(HDCSE105/53)\n";
 		TempFile_03 << "\t\tREG date: 09.12.2016\n";
 		TempFile_03.close();
 }
@@ -238,8 +256,76 @@ void viewCompanyDetails(){
 		CompanyDetail.close();
 }
 
+void addSales(int booklistno, int count){
+	soldBookListNumber[booklistno] = booklistno;
+	soldBookAuthor[booklistno] = author_arr[booklistno];
+	soldBookTitle[booklistno] = title_arr[booklistno];
+	soldBookPrice[booklistno] = price_arr[booklistno];
+	soldBookCount[booklistno] = count;
+	sales[booklistno] = price_arr[booklistno] * count;
+	totalSales += sales[booklistno];
+	totalSalesAccumulation[booklistno] = totalSales;
+}
 
+void createSalestxt(){
+	ofstream TempSales("salesdetails.txt");
 
+	for (int i =0; i < 100; i++){
+		if(soldBookCount[i] > 0){
+			TempSales << "\n"<<soldBookListNumber[i] << "\t"<<soldBookAuthor[i] << "\t" << soldBookTitle[i] << "\tCount: " << soldBookCount[i] << "\tPrice: "<< soldBookPrice[i] <<"\tSales: " << sales[i] << "\tAccu.Sales: " << totalSalesAccumulation[i] << "\n";
+		}
+	}
+	TempSales.close();
+}
+
+void viewSales(){
+	string salestxt;
+
+	ifstream MySales("salesdetails.txt");
+
+	while (getline(MySales, salestxt)){
+		cout << salestxt << "\n";
+	}
+	MySales.close();
+}
+
+void manageSales(){
+	int select_no, booklistno, count;
+	do {
+		cout <<"\n\tPlease select a choice from menu below: ";
+		cout << "\n\t\t1. Add a sale\n\t\t2. View sales details\n\t\t3. Back to previous menu\n";
+		cout << "\n\t\tEnter a number: ";
+		cin >> select_no;
+
+		switch (select_no)
+		{
+		case 1:
+			cout <<"\n\t\tEnter book list number of book sold: ";
+			cin >> booklistno;
+			cout <<"\n\t\tEnter number of books sold: ";
+			cin >> count;
+			addSales(booklistno, count);
+			cout <<"\n\t\tSuccessfully entered a sale!!";
+			cout <<"\n\t\t*****************************" << endl;
+			break;
+
+		case 2:
+			createSalestxt();
+			cout << "\nSALES DETAILS: \n";
+			cout << "*************";
+			viewSales();
+			break;
+
+		case 3:
+			break;
+		
+		default:
+			cout << "\n\t\tInvalid input!! Please enter number 1 to 3." << endl;
+			break;
+		}
+
+	} while (select_no != 3);
+}
 
 //login function that returns true or false
 void login(string& user, string& pw)
@@ -280,12 +366,12 @@ void login(string& user, string& pw)
 				do {
 							cin.clear();
 							cout << "\n\n\tPlease select an option from the given menu below:\n\n";
-							cout << "\t\t1. View available books\n\t\t2. Add a book\n\t\t3. Update a book details\n\t\t4. Delete a book\n\t\t5. View sales details\n\t\t6. Register a new user\n\t\t7. Logout\n";
+							cout << "\t\t1. View available books\n\t\t2. Add a book\n\t\t3. Update a book details\n\t\t4. Delete a book\n\t\t5. Manage sales\n\t\t6. Register a new user\n\t\t7. Logout\n";
 							do {
 								error = 0;
 								cout << "\n\tEnter your selection (number): ";
 								cin >> choice_number;								
-								cout << "\n\t****************" << endl;
+								cout << "\n\t*********************************" << endl;
 								
 								if (cin.fail())
 								{
@@ -335,8 +421,7 @@ void login(string& user, string& pw)
 									deleteBook(deleteListNo);
 
 								case 5:
-									createCompanyDetails();
-									viewCompanyDetails();
+									manageSales();
 									break;									
 
 								case 6:
