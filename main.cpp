@@ -9,6 +9,12 @@ int error;
 bool logged_in;
 string username[10];
 string password[10];
+string author_arr[100];
+string title_arr[100];
+string publisher_arr[100];
+float price_arr[100];
+int stock_arr[100];
+
 
 
 //functions to create txt files(3)
@@ -108,25 +114,26 @@ void createNewUsernamePassword(int position, string newuser, string newpassword)
 //create txt file containing book details
 void createBooksAvailable()
 {
-	//create a list of books details (maximum 100) with details of 5 books already entered	
-	string author[100] = {"N.M.Stevenson", "R. Gregor", "L. Timothy", "G. Laura", "P. Randall"};
-	string title[100] = {"Learn C++", "Learn Java", "Learn Python", "Learn HTML", "Learn CSS"};
-	string publisher[100] = {"Penguin ", "McMillan", "Hachette", "Schuster", "Collins "};
-	float price[100] = {2000,3500,990,5600,4200};
-	int stock[100] = {3,5,12,6,20};
-
-
+	
 	ofstream TempFile_02("bookdetails.txt");
 	
 	//iterating through arrays to write on txt file
 	for (int i=0; i < 10; i++)
 	{
-		if (stock[i] > 0){
-		TempFile_02 << author[i] << "\t\t" << title[i] << "\t\t" << publisher[i] << "\t\t" << price[i] << "\t\t" << stock[i] << "\n";
+		if (stock_arr[i] > 0){
+		TempFile_02 << author_arr[i] << "\t\t" << title_arr[i] << "\t\t" << publisher_arr[i] << "\t\t" << price_arr[i] << "\t\t" << stock_arr[i] << "\n";
 		}
 	
 	}
 	TempFile_02.close();
+}
+
+void addNewBooks(int list_number, string author, string title, string publisher, float price, int stock){
+	author_arr[list_number] = author;
+	title_arr[list_number] = title;
+	publisher_arr[list_number] = publisher;
+	price_arr[list_number] = price;
+	stock_arr[list_number] = stock;
 }
 
 void viewAvailableBooks(){
@@ -171,10 +178,21 @@ void viewCompanyDetails(){
 void login(string& user, string& pw)
 {	int choice_number;
 	int position_number;
+
 	string newUserName;
 	string newPassWord;
+
+
 	createNewUsernamePassword(0, "admin", "0000");
 	createUsernamePassword();	
+
+	addNewBooks(1,"N.M.Stevenson","Wild Wild Dreams","Penguin ", 2400, 12);
+	addNewBooks(2,"R. Gregor", "How to win friends", "McMillan", 3500, 15);
+	addNewBooks(3, "M. Micheal", "Run Far Away From Her", "Mermaidz", 3200, 10);
+	addNewBooks(4, "K. Krishna", "Power of Knowledge", "BBC Inc.", 2100, 4);
+	addNewBooks(5, "K. Rowland", "Learn C++ the easy way", "Schuster", 5800, 18);
+	createBooksAvailable();
+
 
 	logged_in = false;
 	for (int i=0; i < 10; i++)
@@ -205,7 +223,7 @@ void login(string& user, string& pw)
 							switch (choice_number){
 								case 1:
 									createBooksAvailable();
-									cout << "AVAILABLE BOOKS: ";								
+									cout << "AVAILABLE BOOKS:- \n";								
 									viewAvailableBooks();							
 									break;
 
