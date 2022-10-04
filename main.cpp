@@ -7,8 +7,8 @@ using namespace std;
 //global variables
 int error;
 bool logged_in;
-string username[10] = {"admin"};
-string password[10] = {"0000"};
+string username[10];
+string password[10];
 
 
 //functions to create txt files(3)
@@ -26,7 +26,7 @@ void addBook();
 void updateBook();
 void deleteBook();
 void viewSalesDetails();
-void registerNewUser();
+void createNewUsernamePassword(int position, string newuser, string newpassword);
 
 
 
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]){
 //create txt file containing username and password
 void createUsernamePassword()
 {	
-	ofstream TempFile_01("username&password.txt");
+	ofstream TempFile_01("username_password.txt");
 
 	//iterating through array to write on txt file
 	for (int i=0; i <10; i++)
@@ -100,6 +100,10 @@ void createUsernamePassword()
 	TempFile_01.close();
 }
 
+void createNewUsernamePassword(int position, string newuser, string newpassword){
+		username[position] = newuser;
+		password[position] = newpassword;
+}
 
 //create txt file containing book details
 void createBooksAvailable()
@@ -115,7 +119,7 @@ void createBooksAvailable()
 	ofstream TempFile_02("bookdetails.txt");
 	
 	//iterating through arrays to write on txt file
-	for (int i=0; i < 100; i++)
+	for (int i=0; i < 10; i++)
 	{
 		if (stock[i] > 0){
 		TempFile_02 << author[i] << "\t\t" << title[i] << "\t\t" << publisher[i] << "\t\t" << price[i] << "\t\t" << stock[i] << "\n";
@@ -133,6 +137,9 @@ void viewAvailableBooks(){
 		}
 		BookDetails.close();
 }
+
+
+//delete book function
 
 //create txt file with company details
 void createCompanyDetails(){
@@ -157,9 +164,18 @@ void viewCompanyDetails(){
 		CompanyDetail.close();
 }
 
+
+
+
 //login function that returns true or false
 void login(string& user, string& pw)
 {	int choice_number;
+	int position_number;
+	string newUserName;
+	string newPassWord;
+	createNewUsernamePassword(0, "admin", "0000");
+	createUsernamePassword();	
+
 	logged_in = false;
 	for (int i=0; i < 10; i++)
 	{
@@ -174,8 +190,7 @@ void login(string& user, string& pw)
 							do {
 								error = 0;
 								cout << "\n\tEnter your selection (number): ";
-								cin >> choice_number;
-								cout << "\n\tAVAILABLE BOOKS: ";
+								cin >> choice_number;								
 								cout << "\n\t****************" << endl;
 								
 								if (cin.fail())
@@ -189,7 +204,8 @@ void login(string& user, string& pw)
 
 							switch (choice_number){
 								case 1:
-									createBooksAvailable();									
+									createBooksAvailable();
+									cout << "AVAILABLE BOOKS: ";								
 									viewAvailableBooks();							
 									break;
 
@@ -209,7 +225,18 @@ void login(string& user, string& pw)
 									break;									
 
 								case 6:
-									// void registerNewUser();
+												
+									cout << "Enter position number (maximum 1-9): ";
+									cin >> position_number;
+									cout << "Enter new user username: ";
+									cin>> newUserName;
+									cout << "Enter new user password: ";
+									cin >> newPassWord;
+										
+									createNewUsernamePassword(position_number, newUserName, newPassWord);									
+									cout << "New user successfully registered" << endl;
+									createUsernamePassword();			
+									break;
 
 								case 7:
 									cout << "\n\tYou have successfully logged_out!!";
@@ -228,5 +255,6 @@ void login(string& user, string& pw)
 	if (!logged_in){
 	cout << "\n\tUsername and password does not match!! Try again." << endl;
 	}
+	
 }
 
