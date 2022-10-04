@@ -1,5 +1,3 @@
-N.M.Stevenson		Wild Wild Dreams		Penguin 		2400		12
-R. Gregor		How to win friends		McMillan		3500		15
-M. Micheal		Run Far Away From Her		Mermaidz		3200		10
-K. Krishna		Power of Knowledge		BBC Inc.		2100		4
-K. Rowland		Learn C++ the easy way		Schuster		5800		18
+1	N.M.Stevenson		Wild Wild Dreams		Penguin 		2400		12
+2	R. Gregor		How to win friends		McMillan		3500		15
+3	K. Krishna		Power of Knowledge		BBC Inc.		2100		4

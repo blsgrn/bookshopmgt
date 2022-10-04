@@ -30,7 +30,7 @@ void viewCompanyDetails();
 void viewAvailableBooks();
 void addBook();
 void updateBook();
-void deleteBook();
+void deleteBook(int list_number);
 void viewSalesDetails();
 void createNewUsernamePassword(int position, string newuser, string newpassword);
 
@@ -118,10 +118,10 @@ void createBooksAvailable()
 	ofstream TempFile_02("bookdetails.txt");
 	
 	//iterating through arrays to write on txt file
-	for (int i=0; i < 10; i++)
+	for (int i=0; i < 100; i++)
 	{
 		if (stock_arr[i] > 0){
-		TempFile_02 << author_arr[i] << "\t\t" << title_arr[i] << "\t\t" << publisher_arr[i] << "\t\t" << price_arr[i] << "\t\t" << stock_arr[i] << "\n";
+		TempFile_02 << i << "\t" << author_arr[i] << "\t\t" << title_arr[i] << "\t\t" << publisher_arr[i] << "\t\t" << price_arr[i] << "\t\t" << stock_arr[i] << "\n";
 		}
 	
 	}
@@ -134,6 +134,21 @@ void addNewBooks(int list_number, string author, string title, string publisher,
 	publisher_arr[list_number] = publisher;
 	price_arr[list_number] = price;
 	stock_arr[list_number] = stock;
+}
+
+void deleteBook(int list_number){
+
+	for (int i=0; i < 99; i++){
+		if ( i >= list_number){
+			author_arr[i] = author_arr[i+1];
+			title_arr[i] = title_arr[i+ 1];
+			publisher_arr[i] = publisher_arr[i+ 1];
+			price_arr[i] = price_arr[i+ 1];
+			stock_arr[i] = stock_arr[i+ 1];
+		}
+
+	}
+	
 }
 
 void viewAvailableBooks(){
@@ -182,6 +197,14 @@ void login(string& user, string& pw)
 	string newUserName;
 	string newPassWord;
 
+	int newListNo;
+	string newAuthor;
+	string newTitle;
+	string newPublisher;
+	float newPrice;
+	int newStock;
+
+	int deleteListNo;
 
 	createNewUsernamePassword(0, "admin", "0000");
 	createUsernamePassword();	
@@ -228,14 +251,31 @@ void login(string& user, string& pw)
 									break;
 
 								case 2:
-									// addBook();
+									cout << "Enter list number (0 to 99): ";
+									cin >> newListNo;
+									cout << "Enter author of new book: ";
+									cin >> newAuthor;
+									cout << "Enter title of new book: ";
+									cin >> newTitle;
+									cout << "Enter publisher of new book: ";
+									cin >> newPublisher;
+									cout << "Enter price of new book: ";
+									cin >> newPrice ;
+									cout << "Enter how many copies: ";
+									cin >> newStock ;
+
+									addNewBooks(newListNo, newAuthor, newTitle, newPublisher, newPrice, newStock);
+									createBooksAvailable();									
 									break;
 
 								case 3:
 									//updateBook();
 
 								case 4:
-									//deleteBook();
+									cout << "Enter the list number of book to be deleted (1-99): ";
+									cin >> deleteListNo;
+
+									deleteBook(deleteListNo);
 
 								case 5:
 									createCompanyDetails();
