@@ -29,7 +29,7 @@ void viewCompanyDetails();
 //second set of functions as choices after user login (Sub Menu after login)
 void viewAvailableBooks();
 void addNewBooks(int list_number, string author, string title, string publisher, float price, int stock);
-void updateBook();
+void updateBook(int list_no);
 void deleteBook(int list_number);
 void viewSalesDetails();
 void createNewUsernamePassword(int position, string newuser, string newpassword);
@@ -136,6 +136,61 @@ void addNewBooks(int list_number, string author, string title, string publisher,
 	stock_arr[list_number] = stock;
 }
 
+void updateBook(int list_no){
+	int entered_number;
+	string auth, title, publ;
+	float pr;
+	int stck;
+	do {
+		cout << "\n\n\tPlease select an option from given menu below to edit:  \n";
+		cout << "\t1. Author\n\t2. Title\n\t3. Publisher\n\t4. Price\n\t5. Stock\n\t6. Exit\n";
+		cout << "Enter number: ";
+		cin >> entered_number;
+
+		switch (entered_number)
+		{
+		case 1:
+			cout << "Edit author name: ";
+			cin >> auth;
+			author_arr[list_no] = auth;
+			break;
+		
+		case 2:
+			cout << "Edit book title: ";
+			cin >> title;
+			title_arr[list_no] = title;
+			break;
+
+		case 3:
+			cout << "Edit book publisher: ";
+			cin >> publ;
+			publisher_arr[list_no] = publ;
+			break;
+
+		case 4:
+			cout << "Edit book price: ";
+			cin >> pr;
+			price_arr[list_no] = pr;
+			break;
+
+		case 5:
+			cout << "Edit book available stock: ";
+			cin >> stck;
+			stock_arr[list_no] = stck;
+
+		case 6:
+			break;
+
+		default:
+			cout << "Invalid input!! Please enter a number 1 to 6" << endl;
+			break;
+		}
+
+
+	}while (entered_number !=6);
+
+}
+
 void deleteBook(int list_number){
 
 	for (int i=0; i < 99; i++){
@@ -159,9 +214,6 @@ void viewAvailableBooks(){
 		}
 		BookDetails.close();
 }
-
-
-//delete book function
 
 //create txt file with company details
 void createCompanyDetails(){
@@ -204,6 +256,7 @@ void login(string& user, string& pw)
 	float newPrice;
 	int newStock;
 
+	int editListNo;
 	int deleteListNo;
 
 	createNewUsernamePassword(0, "admin", "0000");
@@ -254,11 +307,11 @@ void login(string& user, string& pw)
 									cout << "Enter list number (0 to 99): ";
 									cin >> newListNo;
 									cout << "Enter author of new book: ";
-									cin >> newAuthor;
+									getline(cin, newAuthor);
 									cout << "Enter title of new book: ";
-									cin >> newTitle;
+									getline(cin, newTitle);
 									cout << "Enter publisher of new book: ";
-									cin >> newPublisher;
+									getline(cin, newPublisher);
 									cout << "Enter price of new book: ";
 									cin >> newPrice ;
 									cout << "Enter how many copies: ";
@@ -269,7 +322,11 @@ void login(string& user, string& pw)
 									break;
 
 								case 3:
-									//updateBook();
+									cout << "Enter the book list number to edit: ";
+									cin >> editListNo;
+									updateBook(editListNo);
+									break;
+
 
 								case 4:
 									cout << "Enter the list number of book to be deleted (1-99): ";
