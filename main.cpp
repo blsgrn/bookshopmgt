@@ -54,7 +54,7 @@ int totalSalesAccumulation[100];
 //Manage Sales Global Variable
 int totalSales {0};
 
-
+//MAIN FUNCTION
 int main(int argc, char *argv[]){
 	int choice_number;
 	string userName, passWord;	
