@@ -286,7 +286,7 @@ void viewSales(){
 	while (getline(MySales, salestxt)){
 		cout << salestxt << "\n";
 	}
-	MySales.close();
+	MySales.close();	
 }
 
 void manageSales(){
@@ -417,8 +417,8 @@ void login(string& user, string& pw)
 								case 4:
 									cout << "Enter the list number of book to be deleted (1-99): ";
 									cin >> deleteListNo;
-
 									deleteBook(deleteListNo);
+									break;
 
 								case 5:
 									manageSales();
