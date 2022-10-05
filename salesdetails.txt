@@ -1,2 +1,0 @@
-
-2	R. Gregor	How to win friends	Count: 3	Price: 3500	Sales: 10500	Accu.Sales: 10500
