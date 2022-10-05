@@ -294,6 +294,7 @@ void addSales(int bookID, int count){
 	sales[bookID] = price_arr[bookID] * count;
 	totalSales += sales[bookID];
 	totalSalesAccumulation[bookID] = totalSales;
+	stock_arr[bookID] -= count; 
 }
 
 //function to create text file containing the list of sales
@@ -302,7 +303,7 @@ void createSalestxt(){
 
 	for (int i =0; i < 100; i++){
 		if(soldBookCount[i] > 0){
-			TempSales << "\n"<<soldBookID[i] << "\t"<<soldBookAuthor[i] << "\t" << soldBookTitle[i] << "\tCount: " << soldBookCount[i] << "\tPrice: "<< soldBookPrice[i] <<"\tSales: " << sales[i] << "\tAccu.Sales: " << totalSalesAccumulation[i] << "\n";
+			TempSales << "\nSold BookID: "<<soldBookID[i] << "\n\tAuthor: "<<soldBookAuthor[i] << "\n\tTitle: " << soldBookTitle[i] << "\n\tNumber of book sold: " << soldBookCount[i] << "\n\tPrice per book: "<< soldBookPrice[i] <<"\n\tTotal sales: " << sales[i] << "\n\nAccumulated sales (from all books): " << totalSalesAccumulation[i] << "\n";
 		}
 	}
 	TempSales.close();
@@ -338,7 +339,7 @@ void manageSales(){
 			cin >> count;
 			addSales(bookID, count);
 			cout <<"\n\t\tSuccessfully entered a sale!!";
-			cout <<"\n\t\t*****************************" << endl;
+			cout <<"\n\t\t*****************************" << endl;			
 			break;
 
 		case 2:
@@ -357,6 +358,7 @@ void manageSales(){
 		}
 
 	} while (select_no != 3);
+createBooksAvailable();
 }
 
 //login function that logins and displays sub menu with choices to user
@@ -374,8 +376,8 @@ void login(string& user, string& pw)
 	float newPrice;
 	int newStock;
 
-	int editListNo;
-	int deleteListNo;
+	int editBookID;
+	int deleteBookID;
 
 	createNewUsernamePassword(0, "admin", "0000");
 	createUsernamePassword();	
@@ -444,19 +446,19 @@ void login(string& user, string& pw)
 
 								case 3:
 									cout << "Enter BookID number of the book to edit: ";
-									cin >> editListNo;
-									updateBook(editListNo);
+									cin >> editBookID;
+									updateBook(editBookID);
 									break;
 
 
 								case 4:
 									cout << "Enter BookID number of the book to delete: ";
-									cin >> deleteListNo;
-									deleteBook(deleteListNo);
+									cin >> deleteBookID;
+									deleteBook(deleteBookID);
 									break;
 
 								case 5:
-									manageSales();
+									manageSales();									
 									break;									
 
 								case 6:
