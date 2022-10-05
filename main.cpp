@@ -168,7 +168,7 @@ void updateBook(int list_no){
 	int stck;
 	do {
 		cout << "\n\n\tPlease select an option from given menu below to edit:  \n";
-		cout << "\t1. Author\n\t2. Title\n\t3. Publisher\n\t4. Price\n\t5. Stock\n\t6. Exit\n";
+		cout << "\t1. Author\n\t2. Title\n\t3. Publisher\n\t4. Price\n\t5. Stock\n\t6. Back to previous menu\n";
 		cout << "\n\tEnter number: ";
 		cin >> entered_number;
 
@@ -176,19 +176,22 @@ void updateBook(int list_no){
 		{
 		case 1:
 			cout << "Edit author name: ";
-			cin >> auth;
+			cin.ignore();
+			getline(cin, auth);			
 			author_arr[list_no] = auth;
 			break;
 		
 		case 2:
 			cout << "Edit book title: ";
-			cin >> title;
+			cin.ignore();
+			getline(cin, title);	
 			title_arr[list_no] = title;
 			break;
 
 		case 3:
 			cout << "Edit book publisher: ";
-			cin >> publ;
+			cin.ignore();
+			getline(cin, publ);	
 			publisher_arr[list_no] = publ;
 			break;
 
@@ -407,10 +410,13 @@ void login(string& user, string& pw)
 									cout << "Enter list number (0 to 99): ";
 									cin >> newListNo;
 									cout << "Enter author of new book: ";
+									cin.ignore();
 									getline(cin, newAuthor);
 									cout << "Enter title of new book: ";
+									// cin >> newTitle;
 									getline(cin, newTitle);
 									cout << "Enter publisher of new book: ";
+									// cin >> newPublisher;
 									getline(cin, newPublisher);
 									cout << "Enter price of new book: ";
 									cin >> newPrice ;
