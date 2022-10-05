@@ -168,9 +168,24 @@ void updateBook(int bookID){
 	int stck;
 	do {
 		cout << "\n\n\tPlease select an option from given menu below to edit:  \n";
-		cout << "\t1. Author\n\t2. Title\n\t3. Publisher\n\t4. Price\n\t5. Stock\n\t6. Back to previous menu\n";
-		cout << "\n\tEnter number: ";
-		cin >> entered_number;
+		cout << "\t1. Author\n\t2. Title\n\t3. Publisher\n\t4. Price\n\t5. Stock\n\t6. Back to previous menu\n" << endl;		
+
+			//for invalid input 
+			do {
+				error = 0;
+				cout << "\n\tEnter your selection (number): ";
+				cin >> entered_number;
+				
+				if (cin.fail())
+				{
+					cout << "\n\tPlease enter a valid input" << endl;
+					error = 1;
+					cin.clear();
+					cin.ignore(50, '\n');
+									
+				}
+			} while (error == 1);
+
 
 		switch (entered_number)
 		{
@@ -317,7 +332,7 @@ void manageSales(){
 		switch (select_no)
 		{
 		case 1:
-			cout <<"\n\t\tEnter book list number of book sold: ";
+			cout <<"\n\t\tEnter BookID number of book sold: ";
 			cin >> bookID;
 			cout <<"\n\t\tEnter number of books sold: ";
 			cin >> count;
@@ -407,7 +422,7 @@ void login(string& user, string& pw)
 									break;
 
 								case 2:
-									cout << "Enter list number (0 to 99): ";
+									cout << "Enter a BookID number for new book (0 to 99): ";
 									cin >> newListNo;
 									cout << "Enter author of new book: ";
 									cin.ignore();
@@ -428,14 +443,14 @@ void login(string& user, string& pw)
 									break;
 
 								case 3:
-									cout << "Enter the book list number to edit: ";
+									cout << "Enter BookID number of the book to edit: ";
 									cin >> editListNo;
 									updateBook(editListNo);
 									break;
 
 
 								case 4:
-									cout << "Enter the list number of book to be deleted (1-99): ";
+									cout << "Enter BookID number of the book to delete: ";
 									cin >> deleteListNo;
 									deleteBook(deleteListNo);
 									break;
