@@ -30,20 +30,20 @@ int stock_arr[100];
 
 //View, add, update and delete book functions
 void viewAvailableBooks();
-void addNewBooks(int list_number, string author, string title, string publisher, float price, int stock);
-void updateBook(int list_no);
-void deleteBook(int list_number);
+void addNewBooks(int bookID, string author, string title, string publisher, float price, int stock);
+void updateBook(int bookID);
+void deleteBook(int bookID);
 
 //register new user function
 void createNewUsernamePassword(int position, string newuser, string newpassword);
 
 //Manage Sales Functions
 void manageSales();
-void addSales(int booklistno, int count);
+void addSales(int bookID, int count);
 void viewSales();
 
 //Manage Sales Arrays
-int soldBookListNumber[100];
+int soldBookID[100];
 string soldBookAuthor[100];
 string soldBookTitle[100];
 int soldBookCount[100];
@@ -143,7 +143,7 @@ void createBooksAvailable()
 	for (int i=0; i < 100; i++)
 	{
 		if (stock_arr[i] > 0){
-		TempFile_02 << i << "\t" << author_arr[i] << "\t\t" << title_arr[i] << "\t\t" << publisher_arr[i] << "\t\t" << price_arr[i] << "\t\t" << stock_arr[i] << "\n";
+		TempFile_02 << "BookID: "<< i << "\n\tAuthor: " << author_arr[i] << "\n\tTitle: " << title_arr[i] << "\n\tPublisher: " << publisher_arr[i] << "\n\tPrice: " << price_arr[i] << "\n\tStock Available: " << stock_arr[i] << "\n";
 		}
 	
 	}
@@ -152,16 +152,16 @@ void createBooksAvailable()
 
 
 //function to add new book
-void addNewBooks(int list_number, string author, string title, string publisher, float price, int stock){
-	author_arr[list_number] = author;
-	title_arr[list_number] = title;
-	publisher_arr[list_number] = publisher;
-	price_arr[list_number] = price;
-	stock_arr[list_number] = stock;
+void addNewBooks(int bookID, string author, string title, string publisher, float price, int stock){
+	author_arr[bookID] = author;
+	title_arr[bookID] = title;
+	publisher_arr[bookID] = publisher;
+	price_arr[bookID] = price;
+	stock_arr[bookID] = stock;
 }
 
 //function to output choices to user to update book
-void updateBook(int list_no){
+void updateBook(int bookID){
 	int entered_number;
 	string auth, title, publ;
 	float pr;
@@ -178,33 +178,33 @@ void updateBook(int list_no){
 			cout << "Edit author name: ";
 			cin.ignore();
 			getline(cin, auth);			
-			author_arr[list_no] = auth;
+			author_arr[bookID] = auth;
 			break;
 		
 		case 2:
 			cout << "Edit book title: ";
 			cin.ignore();
 			getline(cin, title);	
-			title_arr[list_no] = title;
+			title_arr[bookID] = title;
 			break;
 
 		case 3:
 			cout << "Edit book publisher: ";
 			cin.ignore();
 			getline(cin, publ);	
-			publisher_arr[list_no] = publ;
+			publisher_arr[bookID] = publ;
 			break;
 
 		case 4:
 			cout << "Edit book price: ";
 			cin >> pr;
-			price_arr[list_no] = pr;
+			price_arr[bookID] = pr;
 			break;
 
 		case 5:
 			cout << "Edit book available stock: ";
 			cin >> stck;
-			stock_arr[list_no] = stck;
+			stock_arr[bookID] = stck;
 			break;
 
 		case 6:
@@ -221,10 +221,10 @@ void updateBook(int list_no){
 }
 
 //function to delete book using list number of book
-void deleteBook(int list_number){
+void deleteBook(int bookID){
 
 	for (int i=0; i < 99; i++){
-		if ( i >= list_number){
+		if ( i >= bookID){
 			author_arr[i] = author_arr[i+1];
 			title_arr[i] = title_arr[i+ 1];
 			publisher_arr[i] = publisher_arr[i+ 1];
@@ -270,15 +270,15 @@ void viewCompanyDetails(){
 }
 
 //function to add sales
-void addSales(int booklistno, int count){
-	soldBookListNumber[booklistno] = booklistno;
-	soldBookAuthor[booklistno] = author_arr[booklistno];
-	soldBookTitle[booklistno] = title_arr[booklistno];
-	soldBookPrice[booklistno] = price_arr[booklistno];
-	soldBookCount[booklistno] = count;
-	sales[booklistno] = price_arr[booklistno] * count;
-	totalSales += sales[booklistno];
-	totalSalesAccumulation[booklistno] = totalSales;
+void addSales(int bookID, int count){
+	soldBookID[bookID] = bookID;
+	soldBookAuthor[bookID] = author_arr[bookID];
+	soldBookTitle[bookID] = title_arr[bookID];
+	soldBookPrice[bookID] = price_arr[bookID];
+	soldBookCount[bookID] = count;
+	sales[bookID] = price_arr[bookID] * count;
+	totalSales += sales[bookID];
+	totalSalesAccumulation[bookID] = totalSales;
 }
 
 //function to create text file containing the list of sales
@@ -287,7 +287,7 @@ void createSalestxt(){
 
 	for (int i =0; i < 100; i++){
 		if(soldBookCount[i] > 0){
-			TempSales << "\n"<<soldBookListNumber[i] << "\t"<<soldBookAuthor[i] << "\t" << soldBookTitle[i] << "\tCount: " << soldBookCount[i] << "\tPrice: "<< soldBookPrice[i] <<"\tSales: " << sales[i] << "\tAccu.Sales: " << totalSalesAccumulation[i] << "\n";
+			TempSales << "\n"<<soldBookID[i] << "\t"<<soldBookAuthor[i] << "\t" << soldBookTitle[i] << "\tCount: " << soldBookCount[i] << "\tPrice: "<< soldBookPrice[i] <<"\tSales: " << sales[i] << "\tAccu.Sales: " << totalSalesAccumulation[i] << "\n";
 		}
 	}
 	TempSales.close();
@@ -307,7 +307,7 @@ void viewSales(){
 
 //function to give choice to users for managing sales
 void manageSales(){
-	int select_no, booklistno, count;
+	int select_no, bookID, count;
 	do {
 		cout <<"\n\tPlease select a choice from menu below: ";
 		cout << "\n\t\t1. Add a sale\n\t\t2. View sales details\n\t\t3. Back to previous menu\n";
@@ -318,10 +318,10 @@ void manageSales(){
 		{
 		case 1:
 			cout <<"\n\t\tEnter book list number of book sold: ";
-			cin >> booklistno;
+			cin >> bookID;
 			cout <<"\n\t\tEnter number of books sold: ";
 			cin >> count;
-			addSales(booklistno, count);
+			addSales(bookID, count);
 			cout <<"\n\t\tSuccessfully entered a sale!!";
 			cout <<"\n\t\t*****************************" << endl;
 			break;
