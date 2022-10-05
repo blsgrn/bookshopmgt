@@ -1,72 +1,74 @@
 #include <iostream>
 #include <fstream>
 
-
 using namespace std;
 
 //global variables
 int error;
+
+//manage logins
 bool logged_in;
 string username[10];
 string password[10];
+void login(string& user, string& pw);
+
+//Functions that creates text file and used by view functions
+void createUsernamePassword();// list of users and passwords text file
+void createBooksAvailable();// list of books available text file
+void createCompanyDetails();//text file containing company details
+void createSalestxt();//list of sales entered
+
+//view company details function
+void viewCompanyDetails();
+
+//arrays containing book details
 string author_arr[100];
 string title_arr[100];
 string publisher_arr[100];
 float price_arr[100];
 int stock_arr[100];
 
-
-
-//functions to create txt files(3)
-void createUsernamePassword();
-void createBooksAvailable();
-void createCompanyDetails();
-
-//first set of functions as choices (Main Menu before login)
-void login(string& user, string& pw);
-void viewCompanyDetails();
-
-//second set of functions as choices after user login (Sub Menu after login)
+//View, add, update and delete book functions
 void viewAvailableBooks();
 void addNewBooks(int list_number, string author, string title, string publisher, float price, int stock);
 void updateBook(int list_no);
 void deleteBook(int list_number);
+
+//register new user function
 void createNewUsernamePassword(int position, string newuser, string newpassword);
 
-
-//manage sales
+//Manage Sales Functions
 void manageSales();
 void addSales(int booklistno, int count);
-void createSalestxt();
 void viewSales();
 
+//Manage Sales Arrays
 int soldBookListNumber[100];
 string soldBookAuthor[100];
 string soldBookTitle[100];
 int soldBookCount[100];
 float soldBookPrice[100];
 int sales[100];
-int totalSales {0};
 int totalSalesAccumulation[100];
 
-
-
+//Manage Sales Global Variable
+int totalSales {0};
 
 
 int main(int argc, char *argv[]){
 	int choice_number;
-	string userName, passWord;
-
-	
+	string userName, passWord;	
 
 	cout << "\n\t\tWelcome to GENIUS BOOK!!\nUsing this software you can manage books in your bookshop\n";
 	cout << "***** **** ******** *** *** ******** ***** ** *** *******" << endl;
-
 	
+	//Once program runs this do..while loop will run until exited.
 	do {
 		cin.clear();
 		cout << "\n\n\tPlease select an option from the given menu below:\n\n";
 		cout << "\t\t1. Login\n\t\t2. View Company Details\n\t\t3. Exit\n";	
+
+		//Do..while loop to prevent exit from program if invalid input is given
 		do {
 			error = 0;
 			cout << "\n\tEnter your selection (number): ";
@@ -82,6 +84,7 @@ int main(int argc, char *argv[]){
 			}
 		} while (error == 1);
 
+		//functions for the choices given in main menu
 		switch (choice_number){
 			case 1:
 				cout << "\n\tEnter username (default username: admin): ";
@@ -110,7 +113,13 @@ int main(int argc, char *argv[]){
 	
 }
 
-//create txt file containing username and password
+//function to create a new username and password
+void createNewUsernamePassword(int position, string newuser, string newpassword){
+		username[position] = newuser;
+		password[position] = newpassword;
+}
+
+//function to create text file containing username and password list
 void createUsernamePassword()
 {	
 	ofstream TempFile_01("username_password.txt");
@@ -123,12 +132,8 @@ void createUsernamePassword()
 	TempFile_01.close();
 }
 
-void createNewUsernamePassword(int position, string newuser, string newpassword){
-		username[position] = newuser;
-		password[position] = newpassword;
-}
 
-//create txt file containing book details
+//function to create text file containing book details
 void createBooksAvailable()
 {
 	
@@ -145,6 +150,8 @@ void createBooksAvailable()
 	TempFile_02.close();
 }
 
+
+//function to add new book
 void addNewBooks(int list_number, string author, string title, string publisher, float price, int stock){
 	author_arr[list_number] = author;
 	title_arr[list_number] = title;
@@ -153,6 +160,7 @@ void addNewBooks(int list_number, string author, string title, string publisher,
 	stock_arr[list_number] = stock;
 }
 
+//function to output choices to user to update book
 void updateBook(int list_no){
 	int entered_number;
 	string auth, title, publ;
@@ -209,6 +217,7 @@ void updateBook(int list_no){
 
 }
 
+//function to delete book using list number of book
 void deleteBook(int list_number){
 
 	for (int i=0; i < 99; i++){
@@ -224,6 +233,7 @@ void deleteBook(int list_number){
 	
 }
 
+//function to view available books based on text file
 void viewAvailableBooks(){
 		string bookstxt;
 		ifstream BookDetails("bookdetails.txt");
@@ -233,7 +243,7 @@ void viewAvailableBooks(){
 		BookDetails.close();
 }
 
-//create txt file with company details
+//function to create text file containing company details
 void createCompanyDetails(){
 		ofstream TempFile_03("companydetails.txt");
 
@@ -246,7 +256,7 @@ void createCompanyDetails(){
 		TempFile_03.close();
 }
 
-//view companydetails
+//function to view companydetails based on text file
 void viewCompanyDetails(){
 		string mytext;
 		ifstream CompanyDetail("companydetails.txt");
@@ -256,6 +266,7 @@ void viewCompanyDetails(){
 		CompanyDetail.close();
 }
 
+//function to add sales
 void addSales(int booklistno, int count){
 	soldBookListNumber[booklistno] = booklistno;
 	soldBookAuthor[booklistno] = author_arr[booklistno];
@@ -267,6 +278,7 @@ void addSales(int booklistno, int count){
 	totalSalesAccumulation[booklistno] = totalSales;
 }
 
+//function to create text file containing the list of sales
 void createSalestxt(){
 	ofstream TempSales("salesdetails.txt");
 
@@ -278,6 +290,7 @@ void createSalestxt(){
 	TempSales.close();
 }
 
+//function to view sales details based on the text file
 void viewSales(){
 	string salestxt;
 
@@ -289,6 +302,7 @@ void viewSales(){
 	MySales.close();	
 }
 
+//function to give choice to users for managing sales
 void manageSales(){
 	int select_no, booklistno, count;
 	do {
@@ -327,7 +341,7 @@ void manageSales(){
 	} while (select_no != 3);
 }
 
-//login function that returns true or false
+//login function that logins and displays sub menu with choices to user
 void login(string& user, string& pw)
 {	int choice_number;
 	int position_number;
