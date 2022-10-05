@@ -13,10 +13,10 @@ string password[10];
 void login(string& user, string& pw);
 
 //Functions that creates text file and used by view functions
-void createUsernamePassword();// list of users and passwords text file
-void createBooksAvailable();// list of books available text file
+void createUsernamePassword();// text file containing list of users and passwords text file
+void createBooksAvailable();// text file containing list of books available text file
 void createCompanyDetails();//text file containing company details
-void createSalestxt();//list of sales entered
+void createSalestxt();//text file containing list of sales entered
 
 //view company details function
 void viewCompanyDetails();
