@@ -48,11 +48,11 @@ string soldBookAuthor[100];
 string soldBookTitle[100];
 int soldBookCount[100];
 float soldBookPrice[100];
-int sales[100];
-int totalSalesAccumulation[100];
+float sales[100];
+float totalSalesAccumulation;
 
 //Manage Sales Global Variable
-int totalSales {0};
+float totalSales {0};
 
 //MAIN FUNCTION
 int main(int argc, char *argv[]){
@@ -298,7 +298,7 @@ void addSales(int bookID, int count){
 	soldBookCount[bookID] = count;
 	sales[bookID] = price_arr[bookID] * count;
 	totalSales += sales[bookID];
-	totalSalesAccumulation[bookID] = totalSales;
+	totalSalesAccumulation = totalSales;
 	stock_arr[bookID] -= count; 
 }
 
@@ -308,7 +308,7 @@ void createSalestxt(){
 
 	for (int i =0; i < 100; i++){
 		if(soldBookCount[i] > 0){
-			TempSales << "\nSold BookID: "<<soldBookID[i] << "\n\tAuthor: "<<soldBookAuthor[i] << "\n\tTitle: " << soldBookTitle[i] << "\n\tNumber of book sold: " << soldBookCount[i] << "\n\tPrice per book: "<< soldBookPrice[i] <<"\n\tTotal sales: " << sales[i] << "\n\nAccumulated sales (from all books): " << totalSalesAccumulation[i] << "\n";
+			TempSales << "\nSold BookID: "<<soldBookID[i] << "\n\tAuthor: "<<soldBookAuthor[i] << "\n\tTitle: " << soldBookTitle[i] << "\n\tNumber of book sold: " << soldBookCount[i] << "\n\tPrice per book: "<< soldBookPrice[i] <<"\n\tTotal sales: " << sales[i] << "\n\nAccumulated sales (from all books): " << totalSalesAccumulation << "\n";
 		}
 	}
 	TempSales.close();
@@ -332,8 +332,22 @@ void manageSales(){
 	do {
 		cout <<"\n\tPlease select a choice from menu below: ";
 		cout << "\n\t\t1. Add a sale\n\t\t2. View sales details\n\t\t3. Back to previous menu\n";
-		cout << "\n\t\tEnter a number: ";
-		cin >> select_no;
+		
+
+		do {
+				error = 0;
+				cout << "\n\tEnter your selection (number): ";
+				cin >> select_no;
+				
+				if (cin.fail())
+				{
+					cout << "\n\tPlease enter a valid input!!" << endl;
+					error = 1;
+					cin.clear();
+					cin.ignore(50, '\n');
+									
+				}
+			} while (error == 1);
 
 		switch (select_no)
 		{
@@ -369,7 +383,7 @@ createBooksAvailable();
 //login function that logins and displays sub menu with choices to user
 void login(string& user, string& pw)
 {	int choice_number;
-	int position_number;
+	int number_position;
 
 	string newUserName;
 	string newPassWord;
@@ -468,15 +482,15 @@ void login(string& user, string& pw)
 
 								case 6:
 												
-									cout << "Enter position number (maximum 1-9): ";
-									cin >> position_number;
+									cout << "Enter new user position number (between 1-9): ";
+									cin >> number_position;
 									cout << "Enter new user username: ";
 									cin>> newUserName;
 									cout << "Enter new user password: ";
 									cin >> newPassWord;
 										
-									createNewUsernamePassword(position_number, newUserName, newPassWord);									
-									cout << "New user successfully registered" << endl;
+									createNewUsernamePassword(number_position, newUserName, newPassWord);									
+									cout << "New user successfully registered!!" << endl;
 									createUsernamePassword();			
 									break;
 
