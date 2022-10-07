@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
 			
 			if (cin.fail())
 			{
-				cout << "\n\tPlease enter a valid input" << endl;
+				cout << "\n\tPlease enter a valid input!!" << endl;
 				error = 1;
 				cin.clear();
 				cin.ignore(50, '\n');
@@ -103,8 +103,8 @@ int main(int argc, char *argv[]){
 				break;
 			
 			default:				
-				cout << "\n\n\tInvalid input!!";
-				cout << "\n*****************************************************"<< endl;				
+				cout << "\n\tInvalid input!!. Enter number 1, 2 or 3.\n";
+				cout << "\n\t***************************************"<< endl;				
 				break;
 		}
 	} while (choice_number !=3);
@@ -178,7 +178,7 @@ void updateBook(int bookID){
 				
 				if (cin.fail())
 				{
-					cout << "\n\tPlease enter a valid input" << endl;
+					cout << "\n\tPlease enter a valid input!!" << endl;
 					error = 1;
 					cin.clear();
 					cin.ignore(50, '\n');
@@ -238,6 +238,7 @@ void updateBook(int bookID){
 //function to delete book using list number of book
 void deleteBook(int bookID){
 
+	if (stock_arr[bookID] > 0){
 	for (int i=0; i < 99; i++){
 		if ( i >= bookID){
 			author_arr[i] = author_arr[i+1];
@@ -245,10 +246,11 @@ void deleteBook(int bookID){
 			publisher_arr[i] = publisher_arr[i+ 1];
 			price_arr[i] = price_arr[i+ 1];
 			stock_arr[i] = stock_arr[i+ 1];
-		}
-
+		} 
+	}	
+	} else {
+		cout <<"\nCannot delete!! Book does not exist in system." << endl;
 	}
-	
 }
 
 //function to view available books based on text file
@@ -268,8 +270,11 @@ void createCompanyDetails(){
 		TempFile_03<<"\n\n\t\tCOMPANY DETAILS\n";
 		TempFile_03<<"\t\t***************\n";
 		TempFile_03<<"\t\tName: GENIUS BOOKS (pvt) Ltd.\n";
-		TempFile_03<< "\t\tAddress: 345, Galle Road, Colombo-04\n";
-		TempFile_03<< "\t\tOwnership: Subramaniam B(HDCSE105/53)\n";
+		TempFile_03<<"\t\tTrade Name: Genius Bookshop.\n";
+		TempFile_03<< "\t\tAddress: 34, York Street\n";
+		TempFile_03<< "\t\tCity: Colombo - 01\n";
+		TempFile_03<< "\t\tTel-no: 078-XXX-XXXX\n";
+		TempFile_03<< "\t\tChairman: Subramaniam B(HDCSE105/53)\n";
 		TempFile_03 << "\t\tREG date: 09.12.2016\n";
 		TempFile_03.close();
 }
